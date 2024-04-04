@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 public class OptionsActivity extends AppCompatActivity {
     Button btnWish, btnMistake, btnChance, btnTrial;
@@ -44,10 +45,16 @@ public class OptionsActivity extends AppCompatActivity {
         btnChance.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(OptionsActivity.this, QuestionActivity.class);
-                intent.putExtra("op", op);
-                intent.putExtra("option", "chance");
-                startActivity(intent);
+                if ("mixed".equals(op)) {
+                    Intent intent = new Intent(OptionsActivity.this, QuestionActivity.class);
+                    intent.putExtra("op", op);
+                    intent.putExtra("option", "chance");
+                    startActivity(intent);
+                } else {
+                    Toast toast = Toast.makeText(OptionsActivity.this, "This is only available for the MIXED option.", Toast.LENGTH_LONG);
+                    toast.show();
+                }
+
             }
         });
     }

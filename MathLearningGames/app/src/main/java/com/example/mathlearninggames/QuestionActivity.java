@@ -14,9 +14,9 @@ import java.util.Objects;
 import java.util.Random;
 
 public class QuestionActivity extends AppCompatActivity {
-    Button btn_nextq, btn_submit;
+    Button btn_submit;
     EditText et_answer;
-    TextView tv_question;
+    TextView tv_question, tv_lives;
     double actualAnswer;
     int score = 0;
     int count;
@@ -25,18 +25,28 @@ public class QuestionActivity extends AppCompatActivity {
     int numQuestions;
     String option;
     long startTime, endTime;
+    int lives;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question);
-        btn_nextq = findViewById(R.id.button_nextq);
         btn_submit = findViewById(R.id.button_sub);
         et_answer = findViewById(R.id.et_answer);
         tv_question = findViewById(R.id.textView);
+        tv_lives = findViewById(R.id.lives);
 
         op = getIntent().getStringExtra("op");
-        numQuestions = Integer.parseInt(getIntent().getStringExtra("numQuestions"));
+        option = getIntent().getStringExtra("option");
+        if ("wish".equals(option)) {
+            numQuestions = Integer.parseInt(getIntent().getStringExtra("numQuestions"));
+            count = numQuestions;
+        } else {
+            count = 0;
+        }
+        lives = 3;
+
+        tv_lives.setText("Lives: " + lives);
 
         if ("add".equals(op)) {
             actualAnswer = questionAdd();
@@ -56,36 +66,65 @@ public class QuestionActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 double userAnswer = Double.parseDouble(et_answer.getText().toString());
-                display_summary = display_summary+" = "+removeTrailingZeros(userAnswer)+" : "+(Double.compare(userAnswer, actualAnswer) == 0);
-                if(Double.compare(userAnswer, actualAnswer) == 0){
-//                    tv_question.setText("Correct!");
+                display_summary = display_summary + " = " + removeTrailingZeros(userAnswer) + " : " + (Double.compare(userAnswer, actualAnswer) == 0);
+                if (Double.compare(userAnswer, actualAnswer) == 0) {
                     score++;
-                }else{
-//                    tv_question.setText("Wrong!");
+                } else {
+                    if ("mistake".equals(option)) {
+                        lives = 0;
+                    } else if ("chance".equals(option)) {
+                        lives--;
+                        tv_lives.setText("Lives: " + lives);
+                    }
                 }
                 et_answer.setText("");
-                count = numQuestions;
                 count--;
-                if(count <= 0){
-                    endTime = System.currentTimeMillis();
-                    long delta = endTime - startTime;
-                    double seconds = delta / 1000.0;
-                    Intent intent = new Intent(QuestionActivity.this, SummaryActivity.class);
-                    intent.putExtra("key_score", score);
-                    intent.putExtra("key_summary", display_summary);
-                    intent.putExtra("time", String.valueOf(seconds));
-                    startActivity(intent);
-                } else {
-                    if ("add".equals(op)) {
-                        actualAnswer = questionAdd();
-                    } else if ("sub".equals(op)) {
-                        actualAnswer = questionSubtraction();
-                    } else if ("mul".equals(op)) {
-                        actualAnswer = questionMultiplication();
-                    } else if ("div".equals(op)) {
-                        actualAnswer = questionDivision();
-                    } else if ("mixed".equals(op)) {
-                        actualAnswer = questionMixed();
+                if ("wish".equals(option)) {
+                    Log.i("count", String.valueOf(count));
+                    if (count <= 0) {
+                        endTime = System.currentTimeMillis();
+                        long delta = endTime - startTime;
+                        double seconds = delta / 1000.0;
+                        Intent intent = new Intent(QuestionActivity.this, SummaryActivity.class);
+                        intent.putExtra("key_score", score);
+                        intent.putExtra("key_summary", display_summary);
+                        intent.putExtra("time", String.valueOf(seconds));
+                        startActivity(intent);
+                    } else {
+                        if ("add".equals(op)) {
+                            actualAnswer = questionAdd();
+                        } else if ("sub".equals(op)) {
+                            actualAnswer = questionSubtraction();
+                        } else if ("mul".equals(op)) {
+                            actualAnswer = questionMultiplication();
+                        } else if ("div".equals(op)) {
+                            actualAnswer = questionDivision();
+                        } else if ("mixed".equals(op)) {
+                            actualAnswer = questionMixed();
+                        }
+                    }
+                } else if ("mistake".equals(option) || "chance".equals(option)) {
+                    if (lives <= 0) {
+                        endTime = System.currentTimeMillis();
+                        long delta = endTime - startTime;
+                        double seconds = delta / 1000.0;
+                        Intent intent = new Intent(QuestionActivity.this, SummaryActivity.class);
+                        intent.putExtra("key_score", score);
+                        intent.putExtra("key_summary", display_summary);
+                        intent.putExtra("time", String.valueOf(seconds));
+                        startActivity(intent);
+                    } else {
+                        if ("add".equals(op)) {
+                            actualAnswer = questionAdd();
+                        } else if ("sub".equals(op)) {
+                            actualAnswer = questionSubtraction();
+                        } else if ("mul".equals(op)) {
+                            actualAnswer = questionMultiplication();
+                        } else if ("div".equals(op)) {
+                            actualAnswer = questionDivision();
+                        } else if ("mixed".equals(op)) {
+                            actualAnswer = questionMixed();
+                        }
                     }
                 }
             }
@@ -101,35 +140,35 @@ public class QuestionActivity extends AppCompatActivity {
         }
         return stringValue;
     }
-    public int questionAdd(){
+    public int questionAdd() {
         int num1, num2;
-        num1 = (int)(Math.random() * 20);
-        num2 = (int)(Math.random() * 20);
-        tv_question.setText("What is "+num1+"+"+num2+"?");
-        display_summary = display_summary +"\n"+num1+"+"+num2;
-        return num1+num2;
+        num1 = (int) (Math.random() * 20);
+        num2 = (int) (Math.random() * 20);
+        tv_question.setText("What is " + num1 + "+" + num2 + "?");
+        display_summary = display_summary + "\n" + num1 + "+" + num2;
+        return num1 + num2;
     }
 
     public int questionSubtraction() {
         int num1, num2;
-        num1 = (int)(Math.random() * 20);
-        num2 = (int)(Math.random() * 20);
+        num1 = (int) (Math.random() * 20);
+        num2 = (int) (Math.random() * 20);
         if (num1 < num2) {
             int temp = num2;
             num2 = num1;
             num1 = temp;
         }
         tv_question.setText("What is " + num1 + "-" + num2);
-        display_summary = display_summary +"\n"+num1+"-"+num2;
+        display_summary = display_summary + "\n" + num1 + "-" + num2;
         return num1 - num2;
     }
 
     public int questionMultiplication() {
         int num1, num2;
-        num1 = (int)(Math.random() * 20);
-        num2 = (int)(Math.random() * 20);
+        num1 = (int) (Math.random() * 20);
+        num2 = (int) (Math.random() * 20);
         tv_question.setText("What is " + num1 + "*" + num2);
-        display_summary = display_summary +"\n"+num1+"*"+num2;
+        display_summary = display_summary + "\n" + num1 + "*" + num2;
         return num1 * num2;
     }
 

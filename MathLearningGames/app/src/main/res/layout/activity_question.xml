@@ -17,17 +17,12 @@
         android:gravity="center"
         android:layout_marginTop="40dp"
         android:text="" />
+
     <EditText
         android:id="@+id/et_answer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-    <Button
-        android:id="@+id/button_nextq"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="NEXT QUESTION"
-        android:textSize="20sp"
-        />
+
     <Button
         android:id="@+id/button_sub"
         android:layout_marginTop="15dp"
@@ -36,5 +31,12 @@
         android:text="SUBMIT"
         android:textSize="20sp"
         />
+
+    <TextView
+        android:id="@+id/lives"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:gravity="center" />
 
 </LinearLayout>
