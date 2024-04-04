@@ -45,8 +45,9 @@ public class QuestionActivity extends AppCompatActivity {
             count = 0;
         }
         lives = 3;
-
-        tv_lives.setText("Lives: " + lives);
+        if ("chance".equals(option)) {
+            tv_lives.setText("Lives: " + lives);
+        }
 
         if ("add".equals(op)) {
             actualAnswer = questionAdd();
