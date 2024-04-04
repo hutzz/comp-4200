@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/wishButton"
+        android:layout_width="356dp"
+        android:layout_height="62dp"
+        android:text="MAKE A WISH"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:layout_editor_absoluteY="16dp" />
+
+    <Button
+        android:id="@+id/mistakeButton"
+        android:layout_width="356dp"
+        android:layout_height="62dp"
+        android:text="NO MISTAKE"
+        app:layout_constraintTop_toBottomOf="@id/wishButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:layout_editor_absoluteY="94dp" />
+
+    <Button
+        android:id="@+id/chanceButton"
+        android:layout_width="356dp"
+        android:layout_height="62dp"
+        android:text="TAKE CHANCES"
+        app:layout_constraintTop_toBottomOf="@id/mistakeButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:layout_editor_absoluteY="172dp" />
+
+    <Button
+        android:id="@+id/trialButton"
+        android:layout_width="356dp"
+        android:layout_height="62dp"
+        android:text="TIME TRIAL"
+        app:layout_constraintTop_toBottomOf="@id/chanceButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:layout_editor_absoluteY="250dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
